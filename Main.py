@@ -19,7 +19,6 @@ pygame.display.set_icon(icon)
 bullet_image = pygame.image.load('pics/second_bullet.png')
 enemy_image = pygame.image.load('pics/enemy.png')
 player_image = pygame.image.load('pics/player.png')
-arrow_img = pygame.image.load('pics/arrow.png')
 #######
 #rand_color = (int(random.randint(0,254)),int(random.randint(0,254)) ,int(random.randint(0,254)))
 
