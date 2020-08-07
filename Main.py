@@ -6,19 +6,20 @@ import time
 from bullets import *
 from player import *
 from enemy import *
+from surfaces import Surface
 
 pygame.init()
 pygame.display.set_caption('Healthless')
-windowX = 600
-windowY = 600
+windowX = 640
+windowY = 640
 window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 
 ######## Load Images
 bullet_image = pygame.image.load('pics/second_bullet.png')
-enemy_image = pygame.image.load('pics/enemy.png')
-player_image = pygame.image.load('pics/player.png')
+enemy_image = pygame.image.load('pics/32x64.png')
+player_image = pygame.image.load('pics/32x64.png')
 ########
 #rand_color = (int(random.randint(0,254)),int(random.randint(0,254)) ,int(random.randint(0,254)))
 
@@ -28,8 +29,9 @@ def play():
     clock = pygame.time.Clock()
     start_color = (0,0,0)
     pygame.mouse.set_visible(False)
-    enemy = Enemy(10,random.randint(10,250),30,60,30,30) #(100,100,30,60,30,30) x,y,width,height, damage and health ???
-    player = Player(300,300,10,64,32,100) #(300,300,10,64,32,100) x,y,vel,height,width, health ???
+    enemy = Enemy()
+    player = Player()
+    test_surface = Surface()
 
     while True:
         for event in pygame.event.get():
@@ -38,9 +40,11 @@ def play():
         		pygame.quit(),sys.exit()
         		break
 
-        window.fill((0,70,80))
+        window.fill((41, 64, 59)) # (41,64,59)
 
-        player.debug()
+        test_surface.place(window,352,352)
+
+        player.teleportation()
         player.shoot(window,start_color,bullet_image)
         player.draw(window,start_color,player_image)
         player.update(window,start_color,bullet_image)
