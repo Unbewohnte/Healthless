@@ -15,25 +15,23 @@ window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 
-######## Images
+######## Load Images
 bullet_image = pygame.image.load('pics/second_bullet.png')
 enemy_image = pygame.image.load('pics/enemy.png')
 player_image = pygame.image.load('pics/player.png')
-#######
+########
 #rand_color = (int(random.randint(0,254)),int(random.randint(0,254)) ,int(random.randint(0,254)))
 
-#################################################### Variables
-FPS = 70
-clock = pygame.time.Clock()
-start_color = (0,0,0)
-pygame.mouse.set_visible(False)
-enemy = Enemy(100,100,30,60,30,30)
-player = Player(300,300,10,64,32,100)
-#######################################################
-################################################################ MAINLOOP START
+################################################################
 def play():
-    gamerun = True
-    while gamerun == True:
+    FPS = 70
+    clock = pygame.time.Clock()
+    start_color = (0,0,0)
+    pygame.mouse.set_visible(False)
+    enemy = Enemy(10,random.randint(10,250),30,60,30,30) #(100,100,30,60,30,30) x,y,width,height, damage and health ???
+    player = Player(300,300,10,64,32,100) #(300,300,10,64,32,100) x,y,vel,height,width, health ???
+
+    while True:
         for event in pygame.event.get():
         	if event.type == pygame.QUIT:
         		gamerun = False
@@ -50,19 +48,21 @@ def play():
         enemy.draw(window,start_color,enemy_image)
         enemy.update()
 
+        if player.y == 0: #Just to try a "death"
+            break
+
         clock.tick(FPS)
-        pygame.display.update() #Update a display
+        pygame.display.update()
         pass
-################################################################## MAINLOOP END
+
+##################################################################
 def quit():
     pygame_menu.events.EXIT
     sys.exit()
 
-menu_bool = True
-while menu_bool == True:
+while True:
     for event in pygame.event.get():
     	if event.type == pygame.QUIT:
-    		menu_bool = False
     		pygame.quit(),sys.exit()
     		break
 

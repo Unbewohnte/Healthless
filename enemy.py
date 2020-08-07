@@ -1,6 +1,6 @@
 import pygame
 from player import *
-from bullets import *
+from bullets import Bullet
 
 
 
@@ -16,7 +16,7 @@ class Enemy:
         pygame.draw.rect(window,en_color,(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(en_image,(self.enemy_x, self.enemy_y))
     def update(self):
-        self.enemy_x += 3 
+        self.enemy_x += 3
         if self.enemy_x >= 600:
             self.enemy_x = 1
     def enemy_shoot(self):
