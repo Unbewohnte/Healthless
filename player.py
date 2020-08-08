@@ -9,7 +9,6 @@ import sys
 windowX = 640
 windowY = 640
 bullets_on_screen = []
-clock = pygame.time.Clock()
 
 class Player:
     def __init__(self):
@@ -65,6 +64,18 @@ class Player:
             print('teleportation cooldown : '+ str(self.tp_cooldown))
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_d] and self.tp_cooldown == 0:
-            self.y -= 64
+        if keys[pygame.K_d] and keys[pygame.K_UP] and self.tp_cooldown == 0: #front-dash
+            self.y -= self.height*2
+            self.tp_cooldown = 100
+
+        if keys[pygame.K_d] and keys[pygame.K_LEFT] and self.tp_cooldown == 0: #left-dash
+            self.x -= self.height*2
+            self.tp_cooldown = 100
+
+        if keys[pygame.K_d] and keys[pygame.K_RIGHT] and self.tp_cooldown == 0: #right-dash
+            self.x += self.height*2
+            self.tp_cooldown = 100
+
+        if keys[pygame.K_d] and keys[pygame.K_DOWN] and self.tp_cooldown == 0: #back-dash
+            self.y += self.height*2
             self.tp_cooldown = 100
