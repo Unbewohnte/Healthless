@@ -3,11 +3,12 @@ import pygame_menu
 import sys
 import random
 import time
-from bullets import *
-from player import *
-from enemy import *
+from bullets import Bullet
+from player import Player
+from enemy import Enemy
 from surfaces import Surface
-######## Set up things that will not change 
+
+######## Set up things that will not change
 pygame.init()
 pygame.display.set_caption('Healthless')
 windowX = 640
@@ -41,7 +42,7 @@ def play():
 
         window.fill((41, 64, 59)) # (41,64,59)
 
-        test_surface.place(window,352,352)
+        test_surface.place(window,100,100)
 
         player.teleportation()
         player.shoot(window,start_color,bullet_image)
@@ -50,8 +51,14 @@ def play():
 
         enemy.draw(window,start_color,enemy_image)
         enemy.update()
+        enemy.collision(enemy)
 
-        if player.y <= 0: #Just to try a "death"
+        if player.out_of_area():
+            print(player.x, player.y)
+            break
+
+        if enemy.out_of_area():
+            print('Random is on our side')
             break
 
         clock.tick(FPS)

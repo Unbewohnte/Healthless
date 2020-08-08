@@ -64,7 +64,7 @@ class Player:
             print('teleportation cooldown : '+ str(self.tp_cooldown))
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_d] and keys[pygame.K_UP] and self.tp_cooldown == 0: #front-dash
+        if keys[pygame.K_d] and keys[pygame.K_UP] and self.tp_cooldown == 0: #forward-dash
             self.y -= self.height*2
             self.tp_cooldown = 100
 
@@ -76,6 +76,17 @@ class Player:
             self.x += self.height*2
             self.tp_cooldown = 100
 
-        if keys[pygame.K_d] and keys[pygame.K_DOWN] and self.tp_cooldown == 0: #back-dash
+        if keys[pygame.K_d] and keys[pygame.K_DOWN] and self.tp_cooldown == 0: #backward-dash
             self.y += self.height*2
             self.tp_cooldown = 100
+
+        # if keys[pygame.K_d] and keys[pygame.K_DOWN] and keys[pygame.K_RIGHT] and self.tp_cooldown == 0: #back-right-dash
+        #     self.y += self.height*2
+        #     self.x += self.height*2
+        #     self.tp_cooldown = 100
+
+    def out_of_area(self):
+        if self.x > windowX or self.x < 0 or self.y > windowY or self.y < 0:
+            return True
+        else:
+            return False
