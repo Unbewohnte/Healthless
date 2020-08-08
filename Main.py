@@ -7,7 +7,7 @@ from bullets import *
 from player import *
 from enemy import *
 from surfaces import Surface
-
+######## Set up things that will not change 
 pygame.init()
 pygame.display.set_caption('Healthless')
 windowX = 640
@@ -16,12 +16,11 @@ window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 
-######## Load Images
+
 bullet_image = pygame.image.load('pics/second_bullet.png')
 enemy_image = pygame.image.load('pics/32x64.png')
 player_image = pygame.image.load('pics/32x64.png')
 ########
-#rand_color = (int(random.randint(0,254)),int(random.randint(0,254)) ,int(random.randint(0,254)))
 
 ################################################################
 def play():
@@ -52,7 +51,7 @@ def play():
         enemy.draw(window,start_color,enemy_image)
         enemy.update()
 
-        if player.y == 0: #Just to try a "death"
+        if player.y <= 0: #Just to try a "death"
             break
 
         clock.tick(FPS)

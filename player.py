@@ -9,9 +9,12 @@ import sys
 windowX = 640
 windowY = 640
 bullets_on_screen = []
+clock = pygame.time.Clock()
 
 class Player:
     def __init__(self):
+        self.bul_cooldown = 50
+        self.tp_cooldown = 100
         self.x = 300
         self.y = 300
         self.vel = 10
@@ -38,10 +41,14 @@ class Player:
 
 
     def shoot(self,window,start_color,bul_image):
+        # if self.bul_cooldown >= 1: #With cooldown the game looks not so spicy.
+        #     self.bul_cooldown -= 2 #Maybe it will be the matter of upgrades ?
+
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_z]:
+        if keys[pygame.K_z]: # and self.bul_cooldown == 0
             new_bullet = Bullet(self.x + self.width/2, self.y + 10)
             bullets_on_screen.append(new_bullet)
+            #self.bul_cooldown = 20
 
         if int(len(bullets_on_screen)) > 0:
             for bullet in bullets_on_screen:
@@ -52,7 +59,12 @@ class Player:
             print('Bullets: ' + str(len(bullets_on_screen)))
 
     def teleportation(self):
+        self.vel = 10
+        if self.tp_cooldown >= 1:
+            self.tp_cooldown -= 2
+            print('teleportation cooldown : '+ str(self.tp_cooldown))
+
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_d]:
-            self.x = randint(10,550)
-            self.y = randint(10,550)
+        if keys[pygame.K_d] and self.tp_cooldown == 0:
+            self.y -= 64
+            self.tp_cooldown = 100

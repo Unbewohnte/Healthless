@@ -8,7 +8,7 @@ class Enemy:
     def __init__(self):
         self.enemy_x = 100
         self.enemy_y = 100
-        self.en_width = 32 
+        self.en_width = 32
         self.en_height = 64
 
     def draw(self,window,en_color,en_image):
@@ -18,5 +18,5 @@ class Enemy:
         self.enemy_x += 3
         if self.enemy_x >= 600:
             self.enemy_x = 1
-    def enemy_shoot(self):
+    def enemy_shoot(self): #Have NO IDEA how it`ll work
         pass
