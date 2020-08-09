@@ -19,6 +19,7 @@ pygame.display.set_icon(icon)
 
 
 bullet_image = pygame.image.load('pics/second_bullet.png')
+enemy_bul_img = pygame.image.load('pics/bullet.png')
 enemy_image = pygame.image.load('pics/32x64.png')
 player_image = pygame.image.load('pics/32x64.png')
 ########
@@ -49,6 +50,8 @@ def play():
         player.draw(window,start_color,player_image)
         player.update(window,start_color,bullet_image)
 
+
+        enemy.enemy_shoot(window,start_color,enemy_bul_img)
         enemy.draw(window,start_color,enemy_image)
         enemy.update()
         enemy.collision(enemy)
