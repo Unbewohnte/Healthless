@@ -4,8 +4,9 @@ import sys
 import random
 import time
 from bullets import Bullet
-from player import Player
-from enemy import Enemy
+#from player import Player
+#from enemy import Enemy
+from beings import *
 from surfaces import Surface
 
 ######## Set up things that will not change
@@ -49,12 +50,12 @@ def play():
         player.shoot(window,start_color,bullet_image)
         player.draw(window,start_color,player_image)
         player.update(window,start_color,bullet_image)
-
+        player.collision()
 
         enemy.enemy_shoot(window,start_color,enemy_bul_img)
         enemy.draw(window,start_color,enemy_image)
         enemy.update()
-        enemy.collision(enemy)
+        enemy.collision()
 
         if player.out_of_area():
             print(player.x, player.y)

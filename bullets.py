@@ -1,6 +1,10 @@
 import pygame
 import random
 
+
+bullets_on_screen = []
+enemy_bul_on_screen = []
+
 class Bullet:
     def __init__(self, bullet_x, bullet_y):
         self.bullet_x = bullet_x + random.randint(-9,9) # -8 -- 8
