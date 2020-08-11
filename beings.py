@@ -6,8 +6,8 @@ from bullets import Bullet
 import time
 import sys
 
-windowX = 640
-windowY = 640
+windowX = 832
+windowY = 832
 bullets_on_screen = []
 enemy_bul_on_screen = []
 

@@ -4,16 +4,14 @@ import sys
 import random
 import time
 from bullets import Bullet
-#from player import Player
-#from enemy import Enemy
 from beings import *
 from surfaces import Surface
 
 ######## Set up things that will not change
 pygame.init()
 pygame.display.set_caption('Healthless')
-windowX = 640
-windowY = 640
+windowX = 832
+windowY = 832
 window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
