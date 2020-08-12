@@ -6,10 +6,12 @@ from bullets import Bullet
 import time
 import sys
 
+############
 windowX = 832
 windowY = 832
 bullets_on_screen = []
 enemy_bul_on_screen = []
+############
 
 class Player:
     def __init__(self):
@@ -105,14 +107,19 @@ class Enemy:
         self.enemy_y = 100
         self.en_width = 32
         self.en_height = 64
-
+        self.vel = 3
     def draw(self,window,en_color,en_image):
         pygame.draw.rect(window,en_color,(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(en_image,(self.enemy_x, self.enemy_y))
-    def update(self):
-        self.enemy_x += 3
-        if self.enemy_x >= 600:
-            self.enemy_x = 1
+    def move(self,side):
+        if str(side) == "right":
+            self.enemy_x += self.vel
+        elif str(side) == "left":
+            self.enemy_x -= self.vel
+        elif str(side) == "up":
+            self.enemy_y -= self.vel
+        elif str(side) == "down":
+            self.enemy_y += self.vel
     def enemy_shoot(self,window,start_color,bul_image): #Have NO IDEA how it`ll work
         new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
         enemy_bul_on_screen.append(new_bullet)

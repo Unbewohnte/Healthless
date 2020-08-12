@@ -52,7 +52,9 @@ def play():
 
         enemy.enemy_shoot(window,start_color,enemy_bul_img)
         enemy.draw(window,start_color,enemy_image)
-        enemy.update()
+        enemy.move('right')
+        if enemy.enemy_x == windowX:
+            enemy.enemy_x = 1
         enemy.collision()
 
         if player.out_of_area():
