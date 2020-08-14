@@ -15,8 +15,7 @@ window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 
-# font = pygame.font.Font('freesansbold.ttf', 32)
-# text = font.render('5', True,(100,100,100))
+font = pygame.font.Font('freesansbold.ttf', 46)
 
 bullet_image = pygame.image.load('pics/second_bullet.png')
 enemy_bul_img = pygame.image.load('pics/bullet.png')
@@ -33,6 +32,8 @@ def play():
     enemy = Enemy()
     player = Player()
     death_timer = 70
+    text = font.render(str(death_timer), True,(0,0,0)) #Declaring just for rect
+    text_rect = text.get_rect(center = (windowX//2,windowY//2 - 100))
     # lower_surface = Surface('killsurf')
     # main_surface = Surface('default')
 
@@ -43,7 +44,7 @@ def play():
         		pygame.quit(),sys.exit()
         		break
 
-        window.fill((41, 64, 59)) # (41,64,59)
+        window.fill((41, 64, 59))
 
         # lower_surface.place(window,0,0)
         # main_surface.place(window,145,145)
@@ -56,7 +57,10 @@ def play():
         if player.out_of_area():
             death_timer -= 1
             print('death_timer',death_timer)
-            if death_timer <= 0:
+            timertext_color = (255-death_timer,3.6*death_timer,10)
+            text = font.render(str(death_timer), True, timertext_color) #Actual text
+            window.blit(text,text_rect)
+            if death_timer <= 1:
                 print('DED')
                 break
         else:
@@ -67,7 +71,7 @@ def play():
         enemy.draw(window,start_color,enemy_image)
         enemy.move('right')
 
-        if enemy.enemy_x == windowX:
+        if enemy.enemy_x == windowX: #That returning thingy
             enemy.enemy_x = 1
         enemy.collision()
 
