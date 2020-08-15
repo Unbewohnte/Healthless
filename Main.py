@@ -1,8 +1,6 @@
 import pygame
 import pygame_menu
 import sys
-import random
-import time
 from bullets import Bullet
 from beings import *
 from surfaces import Surface
@@ -21,7 +19,6 @@ font = pygame.font.Font('freesansbold.ttf', 46)
 def play():
     FPS = 70
     clock = pygame.time.Clock()
-    start_color = (0,0,0)
     pygame.mouse.set_visible(False)
     enemy = Enemy()
     player = Player()

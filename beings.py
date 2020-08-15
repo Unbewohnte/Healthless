@@ -8,7 +8,7 @@ import sys
 ############
 windowX = 832
 windowY = 832
-
+############ imgs for player-enemy(self,bullet)
 bullet_image = pygame.image.load('pics/second_bullet.png')
 enemy_bul_img = pygame.image.load('pics/bullet.png')
 enemy_image = pygame.image.load('pics/32x64.png')
