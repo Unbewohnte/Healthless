@@ -15,11 +15,6 @@ window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 font = pygame.font.Font('freesansbold.ttf', 46)
-
-bullet_image = pygame.image.load('pics/second_bullet.png')
-enemy_bul_img = pygame.image.load('pics/bullet.png')
-enemy_image = pygame.image.load('pics/32x64.png')
-player_image = pygame.image.load('pics/32x64.png')
 ########
 
 ################################################################
@@ -49,13 +44,12 @@ def play():
         # main_surface.place(window,145,145)
 
         player.teleportation()
-        player.shoot(window,start_color,bullet_image)
-        player.draw(window,start_color,player_image)
-        player.update(window,start_color,bullet_image)
+        player.shoot(window)
+        player.draw(window)
+        player.update()
         player.collision()
         if player.out_of_area():
             death_timer -= 1
-            print('death_timer',death_timer)
             timertext_color = (255-death_timer-60,3.6*death_timer,10)
             text = font.render(str(death_timer), True, timertext_color) #Actual text
             window.blit(text,text_rect)
@@ -66,8 +60,8 @@ def play():
             death_timer = 70
 
 
-        enemy.enemy_shoot(window,start_color,enemy_bul_img)
-        enemy.draw(window,start_color,enemy_image)
+        enemy.enemy_shoot(window)
+        enemy.draw(window)
         enemy.move('right')
 
         if enemy.enemy_x >= windowX-10: #That returning thingy

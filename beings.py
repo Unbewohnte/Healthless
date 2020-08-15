@@ -1,16 +1,18 @@
 import pygame
 from random import randint
 from time import time
-import bullets
-from bullets import Bullet
+from bullets import *
 import time
 import sys
 
 ############
 windowX = 832
 windowY = 832
-bullets_on_screen = []
-enemy_bul_on_screen = []
+
+bullet_image = pygame.image.load('pics/second_bullet.png')
+enemy_bul_img = pygame.image.load('pics/bullet.png')
+enemy_image = pygame.image.load('pics/32x64.png')
+player_image = pygame.image.load('pics/32x64.png')
 ############
 
 class Player:
@@ -23,12 +25,12 @@ class Player:
         self.height = 64
         self.width = 32
 
-    def update(self,window,start_color,bul_image):
+    def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and self.x - self.vel > 5 :
         	self.x -= self.vel
 
-        if keys[pygame.K_RIGHT] and self.x < windowX- self.width - 5 :
+        if keys[pygame.K_RIGHT] and self.x + self.vel < windowX- self.width - 5 :
         	self.x += self.vel
 
         if keys[pygame.K_UP] and self.y + self.height - self.vel > self.height + 5 :
@@ -37,13 +39,13 @@ class Player:
         if keys[pygame.K_DOWN] and self.y + self.height + self.vel < windowY-15 :
         	self.y += self.vel
 
-    def draw(self,window,color,player_image):
-        pygame.draw.rect(window,color,(self.x,self.y,self.width,self.height))
+    def draw(self,window):
+        pygame.draw.rect(window,(0,0,0),(self.x,self.y,self.width,self.height))
         window.blit(player_image,(self.x, self.y))
         self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
-    def shoot(self,window,start_color,bul_image):
+    def shoot(self,window):
         # if self.bul_cooldown >= 1: #With cooldown the game looks not so spicy.
         #     self.bul_cooldown -= 2 #Maybe it will be the matter of upgrades ?
 
@@ -55,7 +57,7 @@ class Player:
 
         if int(len(bullets_on_screen)) > 0:
             for bullet in bullets_on_screen:
-                bullet.draw(window,start_color,bul_image)
+                bullet.draw(window,(0,0,0),bullet_image)
                 bullet.move()
                 if bullet.bullet_y <= -20:
                     bullets_on_screen.remove(bullet)
@@ -113,9 +115,9 @@ class Enemy:
         self.en_width = 32
         self.en_height = 64
         self.vel = 3
-    def draw(self,window,en_color,en_image):
-        pygame.draw.rect(window,en_color,(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
-        window.blit(en_image,(self.enemy_x, self.enemy_y))
+    def draw(self,window):
+        pygame.draw.rect(window,(0,0,0),(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
+        window.blit(enemy_image,(self.enemy_x, self.enemy_y))
         self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height) #Rect object for collision
     def move(self,side):
         if str(side) == "right":
@@ -126,12 +128,12 @@ class Enemy:
             self.enemy_y -= self.vel
         elif str(side) == "down":
             self.enemy_y += self.vel
-    def enemy_shoot(self,window,start_color,bul_image):
+    def enemy_shoot(self,window):
         new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
         enemy_bul_on_screen.append(new_bullet)
         if int(len(enemy_bul_on_screen)) > 0:
             for bullet in enemy_bul_on_screen:
-                bullet.draw(window,start_color,bul_image)
+                bullet.draw(window,(0,0,0),enemy_bul_img)
                 bullet.movedwn()
                 if bullet.bullet_y >= windowY +20:
                     enemy_bul_on_screen.remove(bullet)
