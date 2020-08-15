@@ -111,6 +111,7 @@ class Enemy:
     def draw(self,window,en_color,en_image):
         pygame.draw.rect(window,en_color,(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(en_image,(self.enemy_x, self.enemy_y))
+        self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height) #Rect object for collision
     def move(self,side):
         if str(side) == "right":
             self.enemy_x += self.vel
@@ -126,19 +127,24 @@ class Enemy:
         if int(len(enemy_bul_on_screen)) > 0:
             for bullet in enemy_bul_on_screen:
                 bullet.draw(window,start_color,bul_image)
-                bullet.moveb()
+                bullet.movedwn()
                 if bullet.bullet_y >= windowY +20:
                     enemy_bul_on_screen.remove(bullet)
 
     def out_of_area(self):
-        if self.enemy_x > windowX or self.enemy_x < 0 or self.enemy_y > windowY or self.enemy_y < 0:
+        if self.enemy_x > windowX+1 or self.enemy_x < -1 or self.enemy_y > windowY+1 or self.enemy_y < -1:
             return True
         else:
             return False
 
     def collision(self):
+        # for bullet in bullets_on_screen:
+        #     # if bullet.bullet_x + bullet.bullet_width/2 >= enemy.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= enemy.enemy_x + enemy.en_width and bullet.bullet_y <= enemy.enemy_y:
+        #     if bullet.bullet_x + bullet.bullet_width/2 >= self.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= self.enemy_x + self.en_width and bullet.bullet_y <= self.enemy_y:
+        #         self.enemy_x += randint(-60,60)
+        #         self.enemy_y += randint(-60,60) # Old hardcoded version
+
         for bullet in bullets_on_screen:
-            # if bullet.bullet_x + bullet.bullet_width/2 >= enemy.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= enemy.enemy_x + enemy.en_width and bullet.bullet_y <= enemy.enemy_y:
-            if bullet.bullet_x + bullet.bullet_width/2 >= self.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= self.enemy_x + self.en_width and bullet.bullet_y <= self.enemy_y:
+            if self.enemy_rect.colliderect(bullet):
                 self.enemy_x += randint(-60,60)
                 self.enemy_y += randint(-60,60)

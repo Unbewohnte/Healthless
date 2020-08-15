@@ -17,5 +17,5 @@ class Bullet:
         window.blit(bullet_image,(self.bullet_x, self.bullet_y))
     def move(self):
         self.bullet_y -= self.bullet_vel
-    def moveb(self):
+    def movedwn(self):
         self.bullet_y += self.bullet_vel

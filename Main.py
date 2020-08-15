@@ -70,8 +70,8 @@ def play():
         enemy.draw(window,start_color,enemy_image)
         enemy.move('right')
 
-        if enemy.enemy_x == windowX: #That returning thingy
-            enemy.enemy_x = 1
+        if enemy.enemy_x >= windowX-10: #That returning thingy
+            enemy.enemy_x = 5
         enemy.collision()
 
         if enemy.out_of_area():
