@@ -14,7 +14,6 @@ windowY = 832
 window = pygame.display.set_mode((windowX,windowY))
 icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
-
 font = pygame.font.Font('freesansbold.ttf', 46)
 
 bullet_image = pygame.image.load('pics/second_bullet.png')
@@ -57,7 +56,7 @@ def play():
         if player.out_of_area():
             death_timer -= 1
             print('death_timer',death_timer)
-            timertext_color = (255-death_timer,3.6*death_timer,10)
+            timertext_color = (255-death_timer-60,3.6*death_timer,10)
             text = font.render(str(death_timer), True, timertext_color) #Actual text
             window.blit(text,text_rect)
             if death_timer <= 1:
