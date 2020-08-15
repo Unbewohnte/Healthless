@@ -38,8 +38,9 @@ class Player:
         	self.y += self.vel
 
     def draw(self,window,color,player_image):
-        self.rect = pygame.draw.rect(window,color,(self.x,self.y,self.width,self.height))
+        pygame.draw.rect(window,color,(self.x,self.y,self.width,self.height))
         window.blit(player_image,(self.x, self.y))
+        self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
 
     def shoot(self,window,start_color,bul_image):
@@ -94,8 +95,12 @@ class Player:
         else:
             return False
     def collision(self):
+        # for bullet in enemy_bul_on_screen:
+        #     if bullet.bullet_x + bullet.bullet_width/2 >= self.x and bullet.bullet_x + bullet.bullet_width/2 <= self.x + self.width and bullet.bullet_y <= self.y:
+        #         self.x += randint(-100,100)
+        #         self.y += randint(-100,100) #Old hardcoded version
         for bullet in enemy_bul_on_screen:
-            if bullet.bullet_x + bullet.bullet_width/2 >= self.x and bullet.bullet_x + bullet.bullet_width/2 <= self.x + self.width and bullet.bullet_y <= self.y:
+            if self.player_rect.colliderect(bullet):
                 self.x += randint(-100,100)
                 self.y += randint(-100,100)
 
@@ -121,7 +126,7 @@ class Enemy:
             self.enemy_y -= self.vel
         elif str(side) == "down":
             self.enemy_y += self.vel
-    def enemy_shoot(self,window,start_color,bul_image): #Have NO IDEA how it`ll work
+    def enemy_shoot(self,window,start_color,bul_image):
         new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
         enemy_bul_on_screen.append(new_bullet)
         if int(len(enemy_bul_on_screen)) > 0:
