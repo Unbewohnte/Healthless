@@ -2,6 +2,7 @@ import pygame
 from random import randint
 from time import time
 from bullets import *
+#from particles import * # !!!
 import time
 import sys
 
@@ -59,9 +60,8 @@ class Player:
             for bullet in bullets_on_screen:
                 bullet.draw(window,(0,0,0),bullet_image)
                 bullet.move()
-                if bullet.bullet_y <= -20:
+                if bullet.bullet_rect[1] <= -20:
                     bullets_on_screen.remove(bullet)
-            print('Bullets: ' + str(len(bullets_on_screen)))
 
     def teleportation(self):
         self.vel = 10
@@ -86,23 +86,19 @@ class Player:
             self.y += self.height*2
             self.tp_cooldown = 100
 
-        # if keys[pygame.K_d] and keys[pygame.K_DOWN] and keys[pygame.K_RIGHT] and self.tp_cooldown == 0: #back-right-dash
-        #     self.y += self.height*2
-        #     self.x += self.height*2
-        #     self.tp_cooldown = 100
-
     def out_of_area(self):
         if self.x + self.width > windowX or self.x < 0 or self.y+self.height > windowY or self.y < 0:
             return True
         else:
             return False
-    def collision(self):
-        # for bullet in enemy_bul_on_screen:
-        #     if bullet.bullet_x + bullet.bullet_width/2 >= self.x and bullet.bullet_x + bullet.bullet_width/2 <= self.x + self.width and bullet.bullet_y <= self.y:
-        #         self.x += randint(-100,100)
-        #         self.y += randint(-100,100) #Old hardcoded version
+    def collision(self,window):
         for bullet in enemy_bul_on_screen:
-            if self.player_rect.colliderect(bullet):
+            if self.player_rect.colliderect(bullet.bullet_rect):
+                # new_particle = Particle(bullet.x,bullet.y)
+                # particles_on_screen.append(new_particle)
+                # for particle in particles_on_screen:
+                #     particle.draw(window)
+                #     particle.update()
                 self.x += randint(-100,100)
                 self.y += randint(-100,100)
 
@@ -135,8 +131,9 @@ class Enemy:
             for bullet in enemy_bul_on_screen:
                 bullet.draw(window,(0,0,0),enemy_bul_img)
                 bullet.movedwn()
-                if bullet.bullet_y >= windowY +20:
-                    enemy_bul_on_screen.remove(bullet)
+                if bullet.bullet_rect[1] >= windowY +20:
+                    enemy_bul_on_screen.remove(bullet) # !!???
+        print('Bullets (Enemy,Player): ' + str(len(bullets_on_screen + enemy_bul_on_screen)))
 
     def out_of_area(self):
         if self.enemy_x > windowX+1 or self.enemy_x < -1 or self.enemy_y > windowY+1 or self.enemy_y < -1:
@@ -145,13 +142,8 @@ class Enemy:
             return False
 
     def collision(self):
-        # for bullet in bullets_on_screen:
-        #     # if bullet.bullet_x + bullet.bullet_width/2 >= enemy.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= enemy.enemy_x + enemy.en_width and bullet.bullet_y <= enemy.enemy_y:
-        #     if bullet.bullet_x + bullet.bullet_width/2 >= self.enemy_x and bullet.bullet_x + bullet.bullet_width/2 <= self.enemy_x + self.en_width and bullet.bullet_y <= self.enemy_y:
-        #         self.enemy_x += randint(-60,60)
-        #         self.enemy_y += randint(-60,60) # Old hardcoded version
-
         for bullet in bullets_on_screen:
-            if self.enemy_rect.colliderect(bullet):
+            if self.enemy_rect.colliderect(bullet.bullet_rect):
+                #Particle effect here
                 self.enemy_x += randint(-60,60)
                 self.enemy_y += randint(-60,60)

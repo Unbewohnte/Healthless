@@ -4,6 +4,7 @@ import sys
 from bullets import Bullet
 from beings import *
 from surfaces import Surface
+from particles import *
 ######## Set up things that will not change
 pygame.init()
 pygame.display.set_caption('Healthless')
@@ -25,8 +26,6 @@ def play():
     death_timer = 70
     text = font.render(str(death_timer), True,(0,0,0)) #Declaring just for rect
     text_rect = text.get_rect(center = (windowX//2,windowY//2 - 100))
-    # lower_surface = Surface('killsurf')
-    # main_surface = Surface('default')
 
     while True:
         for event in pygame.event.get():
@@ -37,14 +36,12 @@ def play():
 
         window.fill((41, 64, 59))
 
-        # lower_surface.place(window,0,0)
-        # main_surface.place(window,145,145)
 
         player.teleportation()
         player.shoot(window)
         player.draw(window)
         player.update()
-        player.collision()
+        player.collision(window)
         if player.out_of_area():
             death_timer -= 1
             timertext_color = (255-death_timer-60,3.6*death_timer,10)
@@ -69,6 +66,11 @@ def play():
             print('Random is on our side')
             break
 
+        partic = Particle(400,400)
+        particles_on_screen.append(partic)
+        for particle in particles_on_screen:
+            particle.draw(window)
+            particle.update()
 
         clock.tick(FPS)
         pygame.display.update()
