@@ -24,8 +24,6 @@ def play():
     enemy = Enemy()
     player = Player()
     death_timer = 70
-    text = font.render(str(death_timer), True,(0,0,0)) #Declaring just for rect
-    text_rect = text.get_rect(center = (windowX//2,windowY//2 - 100))
 ##########################
     while True:
         for event in pygame.event.get():
@@ -47,7 +45,7 @@ def play():
             death_timer -= 1
             timertext_color = (255-death_timer-60,3.6*death_timer,10)
             text = font.render(str(death_timer), True, timertext_color) #Actual text
-            window.blit(text,text_rect)
+            window.blit(text,(windowX//2,windowY//2 - 100))
             if death_timer <= 1:
                 print('DED')
                 break

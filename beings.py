@@ -149,9 +149,10 @@ class Enemy:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
                 self.enemy_x += randint(-60,60)
                 self.enemy_y += randint(-60,60)
-
-                particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
-                particles_on_screen.append(particle)
+                for i in range(5):
+                    particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
+                    particles_on_screen.append(particle)
+                    
         if len(particles_on_screen) != 0:
             for particle in particles_on_screen:
                 particle.draw(window)
