@@ -2,7 +2,7 @@ import pygame
 from random import randint
 from time import time
 from bullets import *
-#from particles import * # !!!
+from particles import * # !!!
 import time
 import sys
 
@@ -18,7 +18,7 @@ player_image = pygame.image.load('pics/32x64.png')
 
 class Player:
     def __init__(self):
-        self.bul_cooldown = 50
+        self.bul_cooldown = 14
         self.tp_cooldown = 100
         self.x = 300
         self.y = 300
@@ -47,14 +47,14 @@ class Player:
 
 
     def shoot(self,window):
-        # if self.bul_cooldown >= 1: #With cooldown the game looks not so spicy.
-        #     self.bul_cooldown -= 2 #Maybe it will be the matter of upgrades ?
+        if self.bul_cooldown >= 1:
+            self.bul_cooldown -= 2
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_z]: # and self.bul_cooldown == 0
+        if keys[pygame.K_z] and self.bul_cooldown == 0:
             new_bullet = Bullet(self.x + self.width/2, self.y + 10)
             bullets_on_screen.append(new_bullet)
-            #self.bul_cooldown = 20
+            self.bul_cooldown = 14
 
         if int(len(bullets_on_screen)) > 0:
             for bullet in bullets_on_screen:
@@ -94,11 +94,6 @@ class Player:
     def collision(self,window):
         for bullet in enemy_bul_on_screen:
             if self.player_rect.colliderect(bullet.bullet_rect):
-                # new_particle = Particle(bullet.x,bullet.y)
-                # particles_on_screen.append(new_particle)
-                # for particle in particles_on_screen:
-                #     particle.draw(window)
-                #     particle.update()
                 self.x += randint(-100,100)
                 self.y += randint(-100,100)
 
@@ -111,6 +106,7 @@ class Enemy:
         self.en_width = 32
         self.en_height = 64
         self.vel = 3
+        self.bul_cooldown = 10
     def draw(self,window):
         pygame.draw.rect(window,(0,0,0),(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(enemy_image,(self.enemy_x, self.enemy_y))
@@ -125,15 +121,22 @@ class Enemy:
         elif str(side) == "down":
             self.enemy_y += self.vel
     def enemy_shoot(self,window):
-        new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
-        enemy_bul_on_screen.append(new_bullet)
+        if self.bul_cooldown >= 1:
+            self.bul_cooldown -= 2
+
+        if self.bul_cooldown <= 0:
+            new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
+            enemy_bul_on_screen.append(new_bullet)
+            self.bul_cooldown = random.randint(6,14) #10
+
         if int(len(enemy_bul_on_screen)) > 0:
             for bullet in enemy_bul_on_screen:
                 bullet.draw(window,(0,0,0),enemy_bul_img)
                 bullet.movedwn()
                 if bullet.bullet_rect[1] >= windowY +20:
-                    enemy_bul_on_screen.remove(bullet) # !!???
-        print('Bullets (Enemy,Player): ' + str(len(bullets_on_screen + enemy_bul_on_screen)))
+                    enemy_bul_on_screen.remove(bullet)
+
+        #print('Bullets (Enemy,Player): ' + str(len(bullets_on_screen + enemy_bul_on_screen)))
 
     def out_of_area(self):
         if self.enemy_x > windowX+1 or self.enemy_x < -1 or self.enemy_y > windowY+1 or self.enemy_y < -1:
@@ -141,9 +144,15 @@ class Enemy:
         else:
             return False
 
-    def collision(self):
+    def collision(self,window):
         for bullet in bullets_on_screen:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
-                #Particle effect here
                 self.enemy_x += randint(-60,60)
                 self.enemy_y += randint(-60,60)
+
+                particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
+                particles_on_screen.append(particle)
+        if len(particles_on_screen) != 0:
+            for particle in particles_on_screen:
+                particle.draw(window)
+                particle.update()

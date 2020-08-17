@@ -26,7 +26,7 @@ def play():
     death_timer = 70
     text = font.render(str(death_timer), True,(0,0,0)) #Declaring just for rect
     text_rect = text.get_rect(center = (windowX//2,windowY//2 - 100))
-
+##########################
     while True:
         for event in pygame.event.get():
         	if event.type == pygame.QUIT:
@@ -35,8 +35,9 @@ def play():
         		break
 
         window.fill((41, 64, 59))
+##########################
 
-
+#PPPPPPPPPPPPPPPPPPPPPPPPP
         player.teleportation()
         player.shoot(window)
         player.draw(window)
@@ -52,25 +53,30 @@ def play():
                 break
         else:
             death_timer = 70
+#PPPPPPPPPPPPPPPPPPPPPPPPP
 
-
+#EEEEEEEEEEEEEEEEEEEEEEEEE
         enemy.enemy_shoot(window)
         enemy.draw(window)
         enemy.move('right')
 
         if enemy.enemy_x >= windowX-10: #That returning thingy
             enemy.enemy_x = 5
-        enemy.collision()
+        enemy.collision(window)
 
         if enemy.out_of_area():
             print('Random is on our side')
             break
+#EEEEEEEEEEEEEEEEEEEEEEEEE
 
-        partic = Particle(400,400)
-        particles_on_screen.append(partic)
-        for particle in particles_on_screen:
-            particle.draw(window)
-            particle.update()
+#PRTCLS_PRTCLS_PRTCLS_PRTCLS_
+        # partic = Particle(400,400)
+        # particles_on_screen.append(partic)
+        # for particle in particles_on_screen:
+        #     particle.draw(window)
+        #     particle.update()
+        # print('PARTICLES: ',str(len(particles_on_screen)))
+#PRTCLS_PRTCLS_PRTCLS_PRTCLS_
 
         clock.tick(FPS)
         pygame.display.update()
