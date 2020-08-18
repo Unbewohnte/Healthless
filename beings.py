@@ -109,13 +109,14 @@ class Player:
 
 
 class Enemy:
-    def __init__(self):
-        self.enemy_x = 100
-        self.enemy_y = 100
+    def __init__(self,x,y):
+        self.enemy_x = x #100
+        self.enemy_y = y #100
         self.en_width = 32
         self.en_height = 64
         self.vel = 3
         self.bul_cooldown = 10
+        self.alive = True
     def draw(self,window):
         pygame.draw.rect(window,(0,0,0),(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(enemy_image,(self.enemy_x, self.enemy_y))
@@ -157,8 +158,8 @@ class Enemy:
         for bullet in player_bullets_on_screen:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
                 player_bullets_on_screen.remove(bullet)
-                self.enemy_x += randint(-60,60)
-                self.enemy_y += randint(-60,60)
+                self.enemy_x += randint(-100,100)
+                self.enemy_y += randint(-100,100)
                 for i in range(5):
                     particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
                     particles_on_screen_e.append(particle)

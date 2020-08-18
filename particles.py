@@ -19,7 +19,6 @@ class Particle:
         if str(side) == "up":
             for particle in particles_on_screen_e:
                 particle.timer -= 0.5
-                #self.rect[1] -= (self.vel - randrange(-7,1))
                 particle.rect[1] += (self.vel + randrange(-7,1))
                 particle.rect[0] += (self.vel + randrange(-3,3))
                 if particle.timer <= 0:

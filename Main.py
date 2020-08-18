@@ -21,7 +21,8 @@ def play():
     FPS = 70
     clock = pygame.time.Clock()
     pygame.mouse.set_visible(False)
-    enemy = Enemy()
+    enemy = Enemy(100,100)
+    enemy2 = Enemy(windowX,200)
     player = Player()
     death_timer = 70
 ##########################
@@ -33,6 +34,7 @@ def play():
         		break
 
         window.fill((41, 64, 59))
+        pygame.draw.rect(window,(0,0,0),(0,720,windowX,5))
 ##########################
 
 #PPPPPPPPPPPPPPPPPPPPPPPPP
@@ -54,16 +56,29 @@ def play():
 #PPPPPPPPPPPPPPPPPPPPPPPPP
 
 #EEEEEEEEEEEEEEEEEEEEEEEEE
-        enemy.enemy_shoot(window)
-        enemy.draw(window)
-        enemy.move('right')
+        if enemy.alive == True:
+            enemy.enemy_shoot(window)
+            enemy.draw(window)
+            enemy.move('right')
+            enemy.collision(window)
+            if enemy.enemy_x >= windowX-10: #That returning thingy
+                enemy.enemy_x = 5
 
-        if enemy.enemy_x >= windowX-10: #That returning thingy
-            enemy.enemy_x = 5
-        enemy.collision(window)
+        if enemy2.alive == True:
+            enemy2.enemy_shoot(window)
+            enemy2.move('left')
+            enemy2.draw(window)
+            enemy2.collision(window)
+            if enemy2.enemy_x <= 5: #That returning thingy
+                enemy2.enemy_x = windowX
 
-        if enemy.out_of_area():
-            print('Random is on our side')
+        if enemy.out_of_area() or enemy.enemy_y + enemy.en_height >= 720:
+            enemy.alive = False
+        if enemy2.out_of_area() or enemy2.enemy_y + enemy2.en_height >= 720:
+            enemy2.alive = False
+
+        if enemy.alive == False and enemy2.alive == False:
+            print('Win-win')
             break
 #EEEEEEEEEEEEEEEEEEEEEEEEE
 
