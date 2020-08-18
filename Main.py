@@ -44,7 +44,7 @@ def play():
         if player.out_of_area():
             death_timer -= 1
             timertext_color = (255-death_timer-60,3.6*death_timer,10)
-            text = font.render(str(death_timer), True, timertext_color) #Actual text
+            text = font.render(str(death_timer), True, timertext_color)
             window.blit(text,(windowX//2,windowY//2 - 100))
             if death_timer <= 1:
                 print('DED')
@@ -66,15 +66,6 @@ def play():
             print('Random is on our side')
             break
 #EEEEEEEEEEEEEEEEEEEEEEEEE
-
-#PRTCLS_PRTCLS_PRTCLS_PRTCLS_
-        # partic = Particle(400,400)
-        # particles_on_screen.append(partic)
-        # for particle in particles_on_screen:
-        #     particle.draw(window)
-        #     particle.update()
-        # print('PARTICLES: ',str(len(particles_on_screen)))
-#PRTCLS_PRTCLS_PRTCLS_PRTCLS_
 
         clock.tick(FPS)
         pygame.display.update()

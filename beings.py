@@ -2,7 +2,7 @@ import pygame
 from random import randint
 from time import time
 from bullets import *
-from particles import * # !!!
+from particles import *
 import time
 import sys
 
@@ -25,7 +25,7 @@ class Player:
         self.vel = 10
         self.height = 64
         self.width = 32
-
+        self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and self.x - self.vel > 5 :
@@ -53,15 +53,15 @@ class Player:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z] and self.bul_cooldown == 0:
             new_bullet = Bullet(self.x + self.width/2, self.y + 10)
-            bullets_on_screen.append(new_bullet)
+            player_bullets_on_screen.append(new_bullet)
             self.bul_cooldown = 14
 
-        if int(len(bullets_on_screen)) > 0:
-            for bullet in bullets_on_screen:
+        if int(len(player_bullets_on_screen)) > 0:
+            for bullet in player_bullets_on_screen:
                 bullet.draw(window,(0,0,0),bullet_image)
-                bullet.move()
+                bullet.move("up")
                 if bullet.bullet_rect[1] <= -20:
-                    bullets_on_screen.remove(bullet)
+                    player_bullets_on_screen.remove(bullet)
 
     def teleportation(self):
         self.vel = 10
@@ -96,6 +96,15 @@ class Player:
             if self.player_rect.colliderect(bullet.bullet_rect):
                 self.x += randint(-100,100)
                 self.y += randint(-100,100)
+                enemy_bul_on_screen.remove(bullet)
+                for i in range(5):
+                    particle = Particle(self.player_rect[0] + self.width/2, self.player_rect[1] + self.height)
+                    particles_on_screen_p.append(particle)
+
+        if len(particles_on_screen_p) != 0:
+            for particle in particles_on_screen_p:
+                particle.draw(window)
+                particle.update("down")
 
 
 
@@ -132,7 +141,7 @@ class Enemy:
         if int(len(enemy_bul_on_screen)) > 0:
             for bullet in enemy_bul_on_screen:
                 bullet.draw(window,(0,0,0),enemy_bul_img)
-                bullet.movedwn()
+                bullet.move("down")
                 if bullet.bullet_rect[1] >= windowY +20:
                     enemy_bul_on_screen.remove(bullet)
 
@@ -145,15 +154,16 @@ class Enemy:
             return False
 
     def collision(self,window):
-        for bullet in bullets_on_screen:
+        for bullet in player_bullets_on_screen:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
+                player_bullets_on_screen.remove(bullet)
                 self.enemy_x += randint(-60,60)
                 self.enemy_y += randint(-60,60)
                 for i in range(5):
                     particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
-                    particles_on_screen.append(particle)
-                    
-        if len(particles_on_screen) != 0:
-            for particle in particles_on_screen:
+                    particles_on_screen_e.append(particle)
+
+        if len(particles_on_screen_e) != 0:
+            for particle in particles_on_screen_e:
                 particle.draw(window)
-                particle.update()
+                particle.update("up")
