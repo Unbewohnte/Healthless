@@ -3,7 +3,7 @@ import pygame_menu
 import sys
 from bullets import Bullet
 from beings import *
-from surfaces import Surface
+from surfaces import SlowTimeSurf
 from particles import *
 ######## Set up things that will not change
 pygame.init()
@@ -21,6 +21,7 @@ def play():
     FPS = 70
     clock = pygame.time.Clock()
     pygame.mouse.set_visible(False)
+    slowsurf = SlowTimeSurf(400,20)
     enemy = Enemy(100,100)
     enemy2 = Enemy(windowX,200)
     player = Player()
@@ -47,11 +48,21 @@ def play():
 ##########################
 
 #PPPPPPPPPPPPPPPPPPPPPPPPP
+        slowsurf.place(window)
+        if slowsurf.collide(player.player_rect):
+            enemy.vel -= 0.1
+            enemy2.vel -= 0.1
+            print("Colliding !")
+        else:
+            enemy.vel = 3
+            enemy2.vel = 3
+
         player.teleportation()
         player.shoot(window)
         player.draw(window)
         player.update()
         player.collision(window)
+
         if player.out_of_area():
             death_timer -= 1
             timertext_color = (255-death_timer-60,3.6*death_timer,10)
@@ -62,6 +73,7 @@ def play():
                 break
         else:
             death_timer = 70
+
 #PPPPPPPPPPPPPPPPPPPPPPPPP
 
 #EEEEEEEEEEEEEEEEEEEEEEEEE

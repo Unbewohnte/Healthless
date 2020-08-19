@@ -3,18 +3,20 @@ from random import randint
 from time import time
 from bullets import *
 from particles import *
+from images import *
 import time
 import sys
 
 ############
 windowX = 832
 windowY = 832
-############ imgs for player-enemy(self,bullet)
-bullet_image = pygame.image.load('pics/second_bullet.png')
-enemy_bul_img = pygame.image.load('pics/bullet.png')
-enemy_image = pygame.image.load('pics/32x64.png')
-player_image = pygame.image.load('pics/32x64.png')
-############
+# ############ imgs for player-enemy(self,bullet), surfaces
+# bullet_image = pygame.image.load('pics/second_bullet.png')
+# enemy_bul_img = pygame.image.load('pics/bullet.png')
+# enemy_image = pygame.image.load('pics/32x64.png')
+# player_image = pygame.image.load('pics/32x64.png')
+# timesurf_image = pygame.image.load('pics/timesurf.png')
+# ############
 
 class Player:
     def __init__(self):
@@ -28,16 +30,16 @@ class Player:
         self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and self.x - self.vel > 5 :
+        if keys[pygame.K_LEFT] and self.x - self.vel > 0 :
         	self.x -= self.vel
 
-        if keys[pygame.K_RIGHT] and self.x + self.vel < windowX- self.width - 5 :
+        if keys[pygame.K_RIGHT] and self.x + self.width + self.vel < windowX:
         	self.x += self.vel
 
-        if keys[pygame.K_UP] and self.y + self.height - self.vel > self.height + 5 :
+        if keys[pygame.K_UP] and self.y - self.vel > 0:
         	self.y -= self.vel
 
-        if keys[pygame.K_DOWN] and self.y + self.height + self.vel < windowY-15 :
+        if keys[pygame.K_DOWN] and self.y + self.height + self.vel < windowY :
         	self.y += self.vel
 
     def draw(self,window):
@@ -87,7 +89,7 @@ class Player:
             self.tp_cooldown = 100
 
     def out_of_area(self):
-        if self.x + self.width > windowX or self.x < 0 or self.y+self.height > windowY or self.y < 0:
+        if self.x + self.width > windowX+3 or self.x < 0 - 3 or self.y+self.height > windowY+3 or self.y < 0 -3:
             return True
         else:
             return False
