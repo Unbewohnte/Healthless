@@ -15,7 +15,7 @@ icon = pygame.image.load('pics/logo.png')
 pygame.display.set_icon(icon)
 font = pygame.font.Font('freesansbold.ttf', 46)
 ########
-
+DEBUG = False
 ################################################################
 def play():
     FPS = 70
@@ -25,6 +25,7 @@ def play():
     enemy2 = Enemy(windowX,200)
     player = Player()
     death_timer = 70
+    SCORE = 0
 ##########################
     while True:
         for event in pygame.event.get():
@@ -35,6 +36,14 @@ def play():
 
         window.fill((41, 64, 59))
         pygame.draw.rect(window,(0,0,0),(0,720,windowX,5))
+
+        if DEBUG == True:
+            for row in range(0,windowX,32):
+                pygame.draw.rect(window,(184, 227, 179, 1),(row,0,2,windowY))
+            for column in range(0,windowY,64):
+                pygame.draw.rect(window,(184, 227, 179),(0,column,windowX,2))
+
+
 ##########################
 
 #PPPPPPPPPPPPPPPPPPPPPPPPP
@@ -72,15 +81,20 @@ def play():
             if enemy2.enemy_x <= 5: #That returning thingy
                 enemy2.enemy_x = windowX
 
-        if enemy.out_of_area() or enemy.enemy_y + enemy.en_height >= 720:
+        if enemy.out_of_area() and enemy.alive == True or enemy.enemy_y + enemy.en_height >= 720 and enemy.alive == True:
             enemy.alive = False
-        if enemy2.out_of_area() or enemy2.enemy_y + enemy2.en_height >= 720:
+            SCORE += 1
+        if enemy2.out_of_area() and enemy2.alive == True or enemy2.enemy_y + enemy2.en_height >= 720 and enemy2.alive == True:
             enemy2.alive = False
+            SCORE += 1
 
         if enemy.alive == False and enemy2.alive == False:
             print('Win-win')
             break
 #EEEEEEEEEEEEEEEEEEEEEEEEE
+
+        score_font = font.render(str(SCORE), True, (114, 150, 47))
+        window.blit(score_font,(100,100))
 
         clock.tick(FPS)
         pygame.display.update()

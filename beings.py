@@ -94,8 +94,8 @@ class Player:
     def collision(self,window):
         for bullet in enemy_bul_on_screen:
             if self.player_rect.colliderect(bullet.bullet_rect):
-                self.x += randint(-100,100)
-                self.y += randint(-100,100)
+                self.x += randint(-100*1.4,100*1.4)
+                self.y += randint(-100*1.4,100*1.4)
                 enemy_bul_on_screen.remove(bullet)
                 for i in range(5):
                     particle = Particle(self.player_rect[0] + self.width/2, self.player_rect[1] + self.height)
@@ -158,8 +158,8 @@ class Enemy:
         for bullet in player_bullets_on_screen:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
                 player_bullets_on_screen.remove(bullet)
-                self.enemy_x += randint(-100,100)
-                self.enemy_y += randint(-100,100)
+                self.enemy_x += randint(-100*1.4,100*1.4)
+                self.enemy_y += randint(-100*1.4,100*1.4)
                 for i in range(5):
                     particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
                     particles_on_screen_e.append(particle)

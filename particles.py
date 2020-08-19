@@ -7,13 +7,13 @@ class Particle:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.width = 4 #4
+        self.width = 4
         self.height = self.width
         self.vel = int(randint(0,3)/5)
         self.rect = pygame.Rect(self.x,self.y,self.width,self.height)
         self.timer = randint(10,66)
     def draw(self,window):
-        for i in range(5): #5
+        for i in range(5):
             pygame.draw.rect(window,(randint(200,255),randint(50,255),20),(self.rect[0] + randint(-35,35), self.rect[1] + randint(-30,30), self.rect[2], self.rect[3]))
     def update(self,side):
         if str(side) == "up":
