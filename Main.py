@@ -1,37 +1,33 @@
 import pygame
 import pygame_menu
 import sys
+from settings import windowX,windowY, DEBUG, window_caption,logo,gamefont
 from bullets import Bullet
 from beings import *
 from surfaces import SlowTimeSurf
 from particles import *
-######## Set up things that will not change
+
 pygame.init()
-pygame.display.set_caption('Healthless')
-windowX = 832
-windowY = 832
+pygame.display.set_caption(window_caption)
 window = pygame.display.set_mode((windowX,windowY))
-icon = pygame.image.load('pics/logo.png')
-pygame.display.set_icon(icon)
-font = pygame.font.Font('freesansbold.ttf', 46)
-########
-DEBUG = False
+pygame.display.set_icon(logo)
+font = pygame.font.Font(gamefont, 46)
+
 ################################################################
 def play():
     FPS = 70
     clock = pygame.time.Clock()
     pygame.mouse.set_visible(False)
-    slowsurf = SlowTimeSurf(400,20)
+    slowsurf = SlowTimeSurf(384,64)
     enemy = Enemy(100,100)
     enemy2 = Enemy(windowX,200)
     player = Player()
     death_timer = 70
     SCORE = 0
-##########################
+########################## LAYER 0
     while True:
         for event in pygame.event.get():
         	if event.type == pygame.QUIT:
-        		gamerun = False
         		pygame.quit(),sys.exit()
         		break
 
@@ -45,9 +41,9 @@ def play():
                 pygame.draw.rect(window,(184, 227, 179),(0,column,windowX,2))
 
 
-##########################
+########################## LAYER 0 END
 
-#PPPPPPPPPPPPPPPPPPPPPPPPP
+########################## LAYER 1
         slowsurf.place(window)
         if slowsurf.collide(player.player_rect):
             enemy.vel -= 0.1
@@ -74,9 +70,9 @@ def play():
         else:
             death_timer = 70
 
-#PPPPPPPPPPPPPPPPPPPPPPPPP
+########################## LAYER 1 END
 
-#EEEEEEEEEEEEEEEEEEEEEEEEE
+########################## LAYER 2
         if enemy.alive == True:
             enemy.enemy_shoot(window)
             enemy.draw(window)
@@ -103,11 +99,12 @@ def play():
         if enemy.alive == False and enemy2.alive == False:
             print('Win-win')
             break
-#EEEEEEEEEEEEEEEEEEEEEEEEE
+########################## LAYER 2 END
 
+########################## LAYER 3 
         score_font = font.render(str(SCORE), True, (114, 150, 47))
         window.blit(score_font,(100,100))
-
+########################## LAYER 3 END
         clock.tick(FPS)
         pygame.display.update()
         pass

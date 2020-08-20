@@ -1,6 +1,7 @@
 import pygame
 from beings import *
-from images import timesurf_image
+from settings import timesurf_image
+
 class Surface:
     def __init__(self,surf_x,surf_y):
             self.x = surf_x

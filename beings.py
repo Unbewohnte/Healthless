@@ -3,20 +3,11 @@ from random import randint
 from time import time
 from bullets import *
 from particles import *
-from images import *
+from settings import windowX,windowY,bullet_image,enemy_bul_img,enemy_image,player_image,timesurf_image
 import time
 import sys
 
-############
-windowX = 832
-windowY = 832
-# ############ imgs for player-enemy(self,bullet), surfaces
-# bullet_image = pygame.image.load('pics/second_bullet.png')
-# enemy_bul_img = pygame.image.load('pics/bullet.png')
-# enemy_image = pygame.image.load('pics/32x64.png')
-# player_image = pygame.image.load('pics/32x64.png')
-# timesurf_image = pygame.image.load('pics/timesurf.png')
-# ############
+
 
 class Player:
     def __init__(self):
@@ -60,7 +51,7 @@ class Player:
 
         if int(len(player_bullets_on_screen)) > 0:
             for bullet in player_bullets_on_screen:
-                bullet.draw(window,(0,0,0),bullet_image)
+                bullet.draw(window)
                 bullet.move("up")
                 if bullet.bullet_rect[1] <= -20:
                     player_bullets_on_screen.remove(bullet)
@@ -119,10 +110,12 @@ class Enemy:
         self.vel = 3
         self.bul_cooldown = 10
         self.alive = True
+
+        self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height)
     def draw(self,window):
         pygame.draw.rect(window,(0,0,0),(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
         window.blit(enemy_image,(self.enemy_x, self.enemy_y))
-        self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height) #Rect object for collision
+        self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height)
     def move(self,side):
         if str(side) == "right":
             self.enemy_x += self.vel
@@ -143,7 +136,7 @@ class Enemy:
 
         if int(len(enemy_bul_on_screen)) > 0:
             for bullet in enemy_bul_on_screen:
-                bullet.draw(window,(0,0,0),enemy_bul_img)
+                bullet.draw(window)
                 bullet.move("down")
                 if bullet.bullet_rect[1] >= windowY +20:
                     enemy_bul_on_screen.remove(bullet)

@@ -1,7 +1,7 @@
 import pygame
 import random
 from math import pow
-
+from settings import bullet_image
 player_bullets_on_screen = []
 enemy_bul_on_screen = []
 
@@ -14,8 +14,8 @@ class Bullet:
         self.bullet_vel = random.randint(24,36)   #16 -- 28
 
         self.bullet_rect = pygame.Rect(self.bullet_x,self.bullet_y,self.bullet_width,self.bullet_height)
-    def draw(self,window,start_color,bullet_image):
-        pygame.draw.rect(window,start_color,self.bullet_rect)
+    def draw(self,window):
+        pygame.draw.rect(window,(0,0,0),self.bullet_rect)
         window.blit(bullet_image,(self.bullet_rect[0],self.bullet_rect[1]))
     def move(self,side):
         if str(side) == "up":
