@@ -44,14 +44,21 @@ def play():
 ########################## LAYER 0 END
 
 ########################## LAYER 1
-        slowsurf.place(window)
-        if slowsurf.collide(player.player_rect):
-            enemy.vel -= 0.1
-            enemy2.vel -= 0.1
-            print("Colliding !")
+        if slowsurf.switch == True:
+            slowsurf.place(window)
+            if slowsurf.collide(player.player_rect):
+                print("Colliding !")
+                slowsurf.switch = False
         else:
-            enemy.vel = 3
-            enemy2.vel = 3
+            if slowsurf.timer >= 0:
+                slowsurf.timer -= 1
+                enemy.vel = 3 - 2
+                enemy2.vel = 3 - 2
+                enemy.bul_cooldown += 1.5
+                enemy2.bul_cooldown += 1.5
+            else:
+                enemy.vel = 3
+                enemy2.vel = 3
 
         player.teleportation()
         player.shoot(window)
@@ -101,7 +108,7 @@ def play():
             break
 ########################## LAYER 2 END
 
-########################## LAYER 3 
+########################## LAYER 3
         score_font = font.render(str(SCORE), True, (114, 150, 47))
         window.blit(score_font,(100,100))
 ########################## LAYER 3 END
