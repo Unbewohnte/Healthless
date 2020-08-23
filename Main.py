@@ -20,10 +20,13 @@ def play():
     pygame.mouse.set_visible(False)
     slowsurf = SlowTimeSurf(384,64)
     enemy = Enemy(100,100)
+    #enemies_on_screen.append(enemy)
     enemy2 = Enemy(windowX,200)
+    #enemies_on_screen.append(enemy2)
     player = Player()
     death_timer = 70
     SCORE = 0
+    ppp = False
 ########################## LAYER 0
     while True:
         for event in pygame.event.get():
@@ -50,15 +53,16 @@ def play():
                 print("Colliding !")
                 slowsurf.switch = False
         else:
-            if slowsurf.timer >= 0:
-                slowsurf.timer -= 1
+            if slowsurf.activation_timer >= 0:
+                slowsurf.activation_timer -= 1
                 enemy.vel = 3 - 2
                 enemy2.vel = 3 - 2
                 enemy.bul_cooldown += 1.5
                 enemy2.bul_cooldown += 1.5
             else:
-                enemy.vel = 3
-                enemy2.vel = 3
+                enemy.refresh()
+                enemy2.refresh()
+
 
         player.teleportation()
         player.shoot(window)
@@ -81,17 +85,17 @@ def play():
 
 ########################## LAYER 2
         if enemy.alive == True:
-            enemy.enemy_shoot(window)
             enemy.draw(window)
             enemy.move('right')
+            enemy.enemy_shoot(window)
             enemy.collision(window)
             if enemy.enemy_x >= windowX-10: #That returning thingy
                 enemy.enemy_x = 5
 
         if enemy2.alive == True:
+            enemy2.draw(window)
             enemy2.enemy_shoot(window)
             enemy2.move('left')
-            enemy2.draw(window)
             enemy2.collision(window)
             if enemy2.enemy_x <= 5: #That returning thingy
                 enemy2.enemy_x = windowX
@@ -106,6 +110,15 @@ def play():
         if enemy.alive == False and enemy2.alive == False:
             print('Win-win')
             break
+
+        # for enemy in enemies_on_screen:
+        #     if enemy[0].alive == True:
+        #         enemy[0].move('right')
+        #         enemy[0].enemy_shoot(window)
+        #         enemy[0].draw(window)
+        #         enemy[0].collision(window)
+        #     else:
+        #         enemy[0].draw(window)
 ########################## LAYER 2 END
 
 ########################## LAYER 3

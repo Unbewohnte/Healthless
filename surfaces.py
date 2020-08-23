@@ -22,7 +22,7 @@ class SlowTimeSurf:
         self.color = (0,0,0)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.switch = True
-        self.timer = 500
+        self.activation_timer = 500
     def place(self,window):
         pygame.draw.rect(window,self.color,self.rect)
         window.blit(timesurf_image,(self.rect[0], self.rect[1]))

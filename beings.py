@@ -7,7 +7,7 @@ from settings import windowX,windowY,bullet_image,enemy_bul_img,enemy_image,play
 import time
 import sys
 
-
+enemies_on_screen = []
 
 class Player:
     def __init__(self):
@@ -163,3 +163,6 @@ class Enemy:
             for particle in particles_on_screen_e:
                 particle.draw(window)
                 particle.update("up")
+    def refresh(self):
+        #self.bul_cooldown = 10
+        self.vel = 3
