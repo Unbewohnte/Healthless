@@ -20,13 +20,13 @@ def play():
     pygame.mouse.set_visible(False)
     slowsurf = SlowTimeSurf(384,64)
     enemy = Enemy(100,100)
-    #enemies_on_screen.append(enemy)
     enemy2 = Enemy(windowX,200)
-    #enemies_on_screen.append(enemy2)
+    enemies_on_screen.append(enemy)
+    enemies_on_screen.append(enemy2)
+    print(enemies_on_screen)
     player = Player()
     death_timer = 70
     SCORE = 0
-    ppp = False
 ########################## LAYER 0
     while True:
         for event in pygame.event.get():
@@ -53,15 +53,10 @@ def play():
                 print("Colliding !")
                 slowsurf.switch = False
         else:
-            if slowsurf.activation_timer >= 0:
-                slowsurf.activation_timer -= 1
-                enemy.vel = 3 - 2
-                enemy2.vel = 3 - 2
-                enemy.bul_cooldown += 1.5
-                enemy2.bul_cooldown += 1.5
-            else:
-                enemy.refresh()
-                enemy2.refresh()
+            #for enemy in enemies_on_screen:
+            slowsurf.activate(enemy)
+            slowsurf.activate(enemy2)
+
 
 
         player.teleportation()

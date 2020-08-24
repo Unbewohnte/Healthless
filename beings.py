@@ -108,7 +108,7 @@ class Enemy:
         self.en_width = 32
         self.en_height = 64
         self.vel = 3
-        self.bul_cooldown = 10
+        self.bul_cooldown = 20 #12
         self.alive = True
 
         self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height)
@@ -127,7 +127,7 @@ class Enemy:
             self.enemy_y += self.vel
     def enemy_shoot(self,window):
         if self.bul_cooldown >= 1:
-            self.bul_cooldown -= 2
+            self.bul_cooldown -= 2 # -=2
 
         if self.bul_cooldown <= 0:
             new_bullet = Bullet(self.enemy_x + self.en_width/2, self.enemy_y + 10)
