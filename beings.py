@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+from random import randint,randrange
 from time import time
 from bullets import *
 from particles import *
@@ -10,6 +10,7 @@ import sys
 enemies_on_screen = []
 
 class Player:
+    power_of_random = 2
     def __init__(self):
         self.bul_cooldown = 14
         self.tp_cooldown = 100
@@ -34,9 +35,10 @@ class Player:
         	self.y += self.vel
 
     def draw(self,window):
-        pygame.draw.rect(window,(0,0,0),(self.x,self.y,self.width,self.height))
-        window.blit(player_image,(self.x, self.y))
+        #(self.x,self.y,self.width,self.height)
         self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        #pygame.draw.rect(window,(0,0,0),(self.player_rect[0],self.player_rect[1],self.player_rect[2],self.player_rect[3]))
+        window.blit(player_image,(self.player_rect[0], self.player_rect[1]))
 
 
     def shoot(self,window):
@@ -87,8 +89,8 @@ class Player:
     def collision(self,window):
         for bullet in enemy_bul_on_screen:
             if self.player_rect.colliderect(bullet.bullet_rect):
-                self.x += randint(-100*1.4,100*1.4)
-                self.y += randint(-100*1.4,100*1.4)
+                self.x += randrange(-100*1.4//self.power_of_random,100*1.4//self.power_of_random)
+                self.y += randrange(-100*1.4//self.power_of_random,100*1.4//self.power_of_random)
                 enemy_bul_on_screen.remove(bullet)
                 for i in range(5):
                     particle = Particle(self.player_rect[0] + self.width/2, self.player_rect[1] + self.height)
@@ -100,22 +102,19 @@ class Player:
                 particle.update("down")
 
 
-
 class Enemy:
     def __init__(self,x,y):
-        self.enemy_x = x #100
-        self.enemy_y = y #100
+        self.enemy_x = x
+        self.enemy_y = y
         self.en_width = 32
         self.en_height = 64
         self.vel = 3
         self.bul_cooldown = 20 #12
         self.alive = True
-
         self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height)
     def draw(self,window):
-        pygame.draw.rect(window,(0,0,0),(self.enemy_x, self.enemy_y, self.en_width, self.en_height))
-        window.blit(enemy_image,(self.enemy_x, self.enemy_y))
         self.enemy_rect = pygame.Rect(self.enemy_x, self.enemy_y, self.en_width, self.en_height)
+        window.blit(enemy_image,(self.enemy_x, self.enemy_y))
     def move(self,side):
         if str(side) == "right":
             self.enemy_x += self.vel
@@ -153,8 +152,8 @@ class Enemy:
         for bullet in player_bullets_on_screen:
             if self.enemy_rect.colliderect(bullet.bullet_rect):
                 player_bullets_on_screen.remove(bullet)
-                self.enemy_x += randint(-100*1.4,100*1.4)
-                self.enemy_y += randint(-100*1.4,100*1.4)
+                self.enemy_x += randrange(-100*Player.power_of_random,100*Player.power_of_random)
+                self.enemy_y += randrange(-100*Player.power_of_random,100*Player.power_of_random)
                 for i in range(5):
                     particle = Particle(self.enemy_rect[0] + self.en_width/2, self.enemy_rect[1] + self.en_height)
                     particles_on_screen_e.append(particle)
@@ -163,6 +162,3 @@ class Enemy:
             for particle in particles_on_screen_e:
                 particle.draw(window)
                 particle.update("up")
-    def refresh(self):
-        #self.bul_cooldown = 10
-        self.vel = 3

@@ -6,7 +6,7 @@ player_bullets_on_screen = []
 enemy_bul_on_screen = []
 
 class Bullet:
-    def __init__(self, bullet_x, bullet_y): # y = ax^2 + bx + c  __maybe ?)
+    def __init__(self, bullet_x, bullet_y): # y = ax^2 + bx + c
         self.bullet_x = bullet_x + random.randint(-9,9)
         self.bullet_y = bullet_y
         self.bullet_width = 4

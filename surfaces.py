@@ -1,6 +1,5 @@
 import pygame
-#from beings import *
-from settings import timesurf_image
+from settings import timesurf_image, randsurf_image
 
 class BuffRandomSurf:
     def __init__(self,surf_x,surf_y):
@@ -9,14 +8,26 @@ class BuffRandomSurf:
             self.width = 32
             self.height = 64
             self.color = (30,70,40)
+            self.switch = True
+            self.activation_timer = 1500
             self.rect = pygame.Rect(self.x,self.y,self.width,self.height,)
-    def place(self,window,surf_x,surf_y):
-        pygame.draw.rect(window,self.color,self.rect)
+
+    def place(self,window):
+        window.blit(randsurf_image,(self.rect[0],self.rect[1]))
+
     def collide(self,object):
         if self.rect.colliderect(object):
             return True
         else:
             return False
+
+    def activate(self,player):
+        if self.activation_timer > 0:
+            self.activation_timer -= 1
+            player.power_of_random = 3
+        else:
+            player.power_of_random = 1
+        #print(power_of_random : ',player.power_of_random)
 
 class SlowTimeSurf:
     def __init__(self,surf_x,surf_y):
@@ -28,14 +39,16 @@ class SlowTimeSurf:
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.switch = True
         self.activation_timer = 1000
+
     def place(self,window):
-        pygame.draw.rect(window,self.color,self.rect)
         window.blit(timesurf_image,(self.rect[0], self.rect[1]))
+
     def collide(self,object):
         if self.rect.colliderect(object):
             return True
         else:
             return False
+
     def activate(self,enemy):
         if self.activation_timer > 0:
             self.activation_timer -= 1

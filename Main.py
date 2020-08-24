@@ -4,7 +4,7 @@ import sys
 from settings import windowX,windowY, DEBUG, window_caption,logo,gamefont
 from bullets import Bullet
 from beings import *
-from surfaces import SlowTimeSurf
+from surfaces import SlowTimeSurf, BuffRandomSurf
 from particles import *
 
 pygame.init()
@@ -19,6 +19,7 @@ def play():
     clock = pygame.time.Clock()
     pygame.mouse.set_visible(False)
     slowsurf = SlowTimeSurf(384,64)
+    randsurf = BuffRandomSurf(540,64)
     enemy = Enemy(100,100)
     enemy2 = Enemy(windowX,200)
     enemies_on_screen.append(enemy)
@@ -53,9 +54,17 @@ def play():
                 print("Colliding !")
                 slowsurf.switch = False
         else:
-            #for enemy in enemies_on_screen:
+            #for enemy in enemies_on_screen: #Doesn`t work and I don`t know why
             slowsurf.activate(enemy)
             slowsurf.activate(enemy2)
+
+        if randsurf.switch == True:
+            randsurf.place(window)
+            if randsurf.collide(player.player_rect):
+                print('Random !!!')
+                randsurf.switch = False
+        else:
+            randsurf.activate(player)
 
 
 
