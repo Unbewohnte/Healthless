@@ -1,7 +1,7 @@
 import pygame
 import pygame_menu
 import sys
-from settings import windowX,windowY, DEBUG, window_caption,logo,gamefont
+from settings import windowX,windowY, DEBUG, window_caption,logo,gamefont, FPS
 from bullets import Bullet
 from beings import *
 from surfaces import SlowTimeSurf, BuffRandomSurf
@@ -15,7 +15,8 @@ font = pygame.font.Font(gamefont, 46)
 
 ################################################################
 def play():
-    FPS = 70
+    if DEBUG == True:
+        from bullets import player_bullets_on_screen,enemy_bul_on_screen
     clock = pygame.time.Clock()
     pygame.mouse.set_visible(False)
     slowsurf = SlowTimeSurf(384,64)
@@ -26,7 +27,9 @@ def play():
     enemies_on_screen.append(enemy2)
     print(enemies_on_screen)
     player = Player()
-    death_timer = 70
+    
+    death_timer = 1.5
+    death_timer_calculation = (death_timer/70)/death_timer
     SCORE = 0
 ########################## LAYER 0
     while True:
@@ -43,6 +46,8 @@ def play():
                 pygame.draw.rect(window,(184, 227, 179, 1),(row,0,2,windowY))
             for column in range(0,windowY,64):
                 pygame.draw.rect(window,(184, 227, 179),(0,column,windowX,2))
+            #print('power_of_random: ',player.power_of_random)
+            print('bullets_on_screen: ', str(len(player_bullets_on_screen + enemy_bul_on_screen)))
 
 
 ########################## LAYER 0 END
@@ -51,7 +56,7 @@ def play():
         if slowsurf.switch == True:
             slowsurf.place(window)
             if slowsurf.collide(player.player_rect):
-                print("Colliding !")
+                print("<Sakuya slows the flow of time !>")
                 slowsurf.switch = False
         else:
             #for enemy in enemies_on_screen: #Doesn`t work and I don`t know why
@@ -61,7 +66,7 @@ def play():
         if randsurf.switch == True:
             randsurf.place(window)
             if randsurf.collide(player.player_rect):
-                print('Random !!!')
+                print('<Randoumu no pawa~ !>')
                 randsurf.switch = False
         else:
             randsurf.activate(player)
@@ -75,15 +80,19 @@ def play():
         player.collision(window)
 
         if player.out_of_area():
-            death_timer -= 1
-            timertext_color = (255-death_timer-60,3.6*death_timer,10)
-            text = font.render(str(death_timer), True, timertext_color)
+            death_timer -= death_timer_calculation
+            timertext_color = (255-death_timer*150,170*death_timer,10)
+            text = font.render(str(round(death_timer,2)), True, timertext_color)
             window.blit(text,(windowX//2,windowY//2 - 100))
-            if death_timer <= 1:
+            if death_timer < 0.1:
                 print('DED')
+                if DEBUG == True:
+                    print('TOTAL {}'.format(time.time()-start))
                 break
         else:
-            death_timer = 70
+            if DEBUG == True:
+                start = time.time()
+            death_timer = 1.5
 
 ########################## LAYER 1 END
 
@@ -115,14 +124,6 @@ def play():
             print('Win-win')
             break
 
-        # for enemy in enemies_on_screen:
-        #     if enemy[0].alive == True:
-        #         enemy[0].move('right')
-        #         enemy[0].enemy_shoot(window)
-        #         enemy[0].draw(window)
-        #         enemy[0].collision(window)
-        #     else:
-        #         enemy[0].draw(window)
 ########################## LAYER 2 END
 
 ########################## LAYER 3

@@ -35,9 +35,7 @@ class Player:
         	self.y += self.vel
 
     def draw(self,window):
-        #(self.x,self.y,self.width,self.height)
         self.player_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        #pygame.draw.rect(window,(0,0,0),(self.player_rect[0],self.player_rect[1],self.player_rect[2],self.player_rect[3]))
         window.blit(player_image,(self.player_rect[0], self.player_rect[1]))
 
 
@@ -62,7 +60,7 @@ class Player:
         self.vel = 10
         if self.tp_cooldown >= 1:
             self.tp_cooldown -= 2
-            print('teleportation cooldown : '+ str(self.tp_cooldown))
+            #print('teleportation cooldown : '+ str(self.tp_cooldown))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d] and keys[pygame.K_UP] and self.tp_cooldown == 0: #forward-dash
@@ -140,7 +138,6 @@ class Enemy:
                 if bullet.bullet_rect[1] >= windowY +20:
                     enemy_bul_on_screen.remove(bullet)
 
-        #print('Bullets (Enemy,Player): ' + str(len(bullets_on_screen + enemy_bul_on_screen)))
 
     def out_of_area(self):
         if self.enemy_x > windowX+1 or self.enemy_x < -1 or self.enemy_y > windowY+1 or self.enemy_y < -1:

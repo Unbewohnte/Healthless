@@ -13,5 +13,6 @@ gamefont       = 'freesansbold.ttf'
 ############
 windowX        =  832
 windowY        =  832
+FPS            =  70
 ############
 DEBUG          =  False

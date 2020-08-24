@@ -1,5 +1,8 @@
 import pygame
-from settings import timesurf_image, randsurf_image
+from settings import timesurf_image, randsurf_image, gamefont
+
+pygame.font.init()
+surf_font = pygame.font.Font(gamefont, 46)
 
 class BuffRandomSurf:
     def __init__(self,surf_x,surf_y):
