@@ -27,9 +27,9 @@ def play():
     enemies_on_screen.append(enemy2)
     print(enemies_on_screen)
     player = Player()
-    
-    death_timer = 1.5
-    death_timer_calculation = (death_timer/70)/death_timer
+
+    death_timer = 1.5 #in seconds
+    death_timer_calculation = (death_timer/FPS)/death_timer
     SCORE = 0
 ########################## LAYER 0
     while True:
@@ -69,7 +69,7 @@ def play():
                 print('<Randoumu no pawa~ !>')
                 randsurf.switch = False
         else:
-            randsurf.activate(player)
+            randsurf.activate(window,player)
 
 
 

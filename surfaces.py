@@ -1,5 +1,5 @@
 import pygame
-from settings import timesurf_image, randsurf_image, gamefont
+from settings import timesurf_image, randsurf_image, gamefont, windowX
 
 pygame.font.init()
 surf_font = pygame.font.Font(gamefont, 46)
@@ -13,7 +13,8 @@ class BuffRandomSurf:
             self.color = (30,70,40)
             self.switch = True
             self.activation_timer = 1500
-            self.rect = pygame.Rect(self.x,self.y,self.width,self.height,)
+            self.rect = pygame.Rect(self.x,self.y,self.width,self.height)
+            #self.timer_rect = pygame.Rect(100,730,self.activation_timer/6,6)
 
     def place(self,window):
         window.blit(randsurf_image,(self.rect[0],self.rect[1]))
@@ -24,10 +25,12 @@ class BuffRandomSurf:
         else:
             return False
 
-    def activate(self,player):
+    def activate(self,window,player):
+        self.timer_rect = pygame.Rect(windowX//2.5,730,self.activation_timer/4,6)
         if self.activation_timer > 0:
             self.activation_timer -= 1
             player.power_of_random = 3
+            pygame.draw.rect(window,(255/(self.activation_timer+1),16*(self.activation_timer//100),10),self.timer_rect)
         else:
             player.power_of_random = 1
         #print(power_of_random : ',player.power_of_random)
